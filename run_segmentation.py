@@ -82,6 +82,7 @@ parser.add_argument('--save_folder', default='a', type=str, help='output_folder'
 parser.add_argument('--model_feature', default=96, type=int, help='model_imbeding_feature size')
 parser.add_argument('--scale_intensity', action='store_true', help='')
 parser.add_argument('--use_smit', default=0, type=int, help='use smit model')
+parser.add_argument('--num_workers', default=0, type=int, help='set number of workers for pytorch dataloader')
 
 
 # copy spacing and orientation info between sitk objects
@@ -129,6 +130,7 @@ def Get_body_wrapper(img, verbose = False, fg_thresh = 1e-4):
 def main():
     args = parser.parse_args()
 
+    num_workers = args.num_workers
     img_folder = args.data_dir
     save_folder = args.save_folder
     if not os.path.exists(save_folder):
@@ -164,7 +166,7 @@ def main():
                                          base_dir=data_dir)
 
     val_org_ds = data.Dataset(data=test_files, transform=val_org_transforms)
-    val_org_loader = data.DataLoader(val_org_ds, batch_size=1, num_workers=4)
+    val_org_loader = data.DataLoader(val_org_ds, batch_size=1, num_workers=num_workers)
 
     print('val data size is ', len(val_org_loader))
     post_transforms = Compose([
