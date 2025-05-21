@@ -22,7 +22,7 @@ save_folder="$2"
 #Trained weight 
 load_weight_name="$3"
 
-input_nifti="$4"
+#input_nifti="$4"
 
 a_min=-750 
 a_max=1750
@@ -41,7 +41,7 @@ use_smit=0
 #space_z=2.0
 #out_channels=2
 
-python utils/gen_data_json.py $input_nifti
+python utils/gen_data_json.py $data_dir
 
 python run_segmentation.py \
     --roi_x 128 \
